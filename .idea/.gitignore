@@ -1,4 +1,7 @@
 # Default ignored files
+/Idea Template.md
+/For Agent.txt
+/.vscode/
 /shelf/
 /workspace.xml
 # Datasource local storage ignored files
