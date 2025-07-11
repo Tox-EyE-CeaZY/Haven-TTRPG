@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic[email]
+python-jose[cryptography] # For JWTs
+bcrypt==3.2.0             # Specific version for password hashing
+passlib==1.7.4            # For password hashing, compatible with bcrypt 3.2.0
+python-multipart  # For form data
+python-dotenv
+fastapi-mail

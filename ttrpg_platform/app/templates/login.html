@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+<form id="loginForm">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+<p id="message"></p>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const response = await fetch('/api/users/token', {
+            method: 'POST',
+            body: formData // FastAPI's OAuth2PasswordRequestForm expects form data
+        });
+        const result = await response.json();
+        const messageElement = document.getElementById('message');
+        if (response.ok) {
+            messageElement.textContent = 'Login successful!';
+            messageElement.style.color = 'green';
+            // Store token (e.g., in a cookie) and redirect
+            document.cookie = `access_token=Bearer ${result.access_token}; path=/; max-age=${60*30}; SameSite=Lax`; // 30 min expiry
+            window.location.href = '/';
+        } else {
+            messageElement.textContent = 'Error: ' + (result.detail || 'Login failed');
+            messageElement.style.color = 'red';
+        }
+    });
+</script>
+{% endblock %}

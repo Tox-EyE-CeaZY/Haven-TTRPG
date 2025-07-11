@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Haven{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/theme.css') }}" id="theme-stylesheet">
+</head>
+<body class="theme-light"> <!-- Default to light theme -->
+    <nav>
+        <a href="/">Home</a> |
+        {% if user %}
+            <span>Welcome, {{ user.username }}!</span> |
+            <a href="/logout">Logout</a> |
+            {% if user.is_admin %}
+                <a href="/admin">Admin Panel</a> | {# Placeholder for admin panel link #}
+            {% endif %}
+        {% else %}
+            <a href="/login">Login</a> |
+            <a href="/register">Register</a> |
+        {% endif %}
+        <button id="theme-toggle-button">Toggle Theme</button>
+    </nav>
+    <hr>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script src="{{ url_for('static', path='/js/theme_switcher.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

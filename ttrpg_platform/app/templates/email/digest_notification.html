@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Haven Digest</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #ffffff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+        h1 { color: #4F46E5; }
+        h3 { color: #6D28D9; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px; }
+        ul { list-style-type: none; padding-left: 0; }
+        li { background-color: #f9f9f9; margin-bottom: 10px; padding: 10px; border-radius: 4px; border-left: 3px solid #4F46E5; }
+        a { color: #4F46E5; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer { margin-top: 30px; text-align: center; font-size: 0.9em; color: #777; }
+        .preview { color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Haven Digest</h1>
+        <p>Hi {{ recipient_name }},</p>
+        <p>Here's what you missed on Haven {{ digest_period_name }}:</p>
+
+        {% if new_game_post and new_game_post|length > 0 %}
+        <h3>New Posts in Your Games</h3>
+        <ul>
+            {% for post_notif in new_game_post %}
+            <li>
+                In <strong>{{ post_notif.game_name_placeholder or "your game" }}</strong>:
+                <span class="preview">"{{ post_notif.content_preview }}"</span>
+                <br><a href="{{ post_notif.link }}">View Post</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if game_updated and game_updated|length > 0 %}
+        <h3>Game Updates</h3>
+        <ul>
+            {% for update_notif in game_updated %}
+            <li>
+                <strong>{{ update_notif.game_name_placeholder or "A game" }}</strong> was updated:
+                <span class="preview">"{{ update_notif.content_preview }}"</span>
+                <br><a href="{{ update_notif.link }}">View Game</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if player_joined_your_game and player_joined_your_game|length > 0 %}
+        <h3>New Players in Your Games</h3>
+        <ul>
+            {% for join_notif in player_joined_your_game %}
+            <li>
+                <strong>{{ join_notif.player_name_placeholder or "A player" }}</strong> joined your game: <strong>{{ join_notif.game_name_placeholder or "a game" }}</strong>.
+                <br><a href="{{ join_notif.link }}">View Game</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% if application_to_your_game and application_to_your_game|length > 0 %}
+        <h3>New Applications to Your Games</h3>
+        <ul>
+            {% for app_notif in application_to_your_game %}
+            <li>
+                <strong>{{ app_notif.applicant_name_placeholder or "Someone" }}</strong> applied to join: <strong>{{ app_notif.game_name_placeholder or "your game" }}</strong>.
+                <br><a href="{{ app_notif.link }}">View Application</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Add other notification types similarly -->
+        {% set has_any_content = (new_game_post and new_game_post|length > 0) or
+                                 (game_updated and game_updated|length > 0) or
+                                 (player_joined_your_game and player_joined_your_game|length > 0) or
+                                 (application_to_your_game and application_to_your_game|length > 0) %}
+        {% if not has_any_content %}
+            <p>No major updates to report in this digest.</p>
+        {% endif %}
+
+
+        <p class="footer">
+            You can manage your notification settings on your <a href="{{ settings_link }}">profile page</a>.
+            <br>&copy; {{ current_year }} Haven. All rights reserved.
+        </p>
+    </div>
+</body>
+</html>

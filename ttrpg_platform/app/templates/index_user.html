@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Welcome back, {{ user.username }}!</h1>
+<p>This is your dashboard. From here you can:</p>
+<ul>
+    <li><a href="/create-game">Create a New Game</a> (Not Implemented Yet)</li>
+    <li><a href="/join-game">Join an Existing Game</a> (Not Implemented Yet)</li>
+</ul>
+{% endblock %}
